@@ -68,7 +68,7 @@ export async function preencherPDF(dados: any) {
 
     // Download do arquivo Oficial Perfeito
     const pdfBytesPreenchido = await pdfDoc.save()
-    const blob = new Blob([pdfBytesPreenchido], { type: 'application/pdf' })
+    const blob = new Blob([pdfBytesPreenchido as any], { type: 'application/pdf' })
     const link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
     link.download = `Relatorio_Oficial_${dados.viatura || ''}.pdf`
