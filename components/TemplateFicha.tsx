@@ -9,20 +9,28 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
   const headerBg = "bg-green-100";
 
   return (
-    // A ref precisa ficar no primeiro elemento, assim ele captura os estilos do @media print
-    <div ref={ref} className="hidden print:block relative w-full bg-white">
+    // Removido hidden e o print:block, usando w-full ao invés de tamanhos fixos
+    <div ref={ref} className="w-full bg-white relative">
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
-          @page { margin: 15mm 10mm; size: A4 portrait; }
-          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white; }
+          @page { margin: 10mm; size: A4 portrait; }
+          body, html { 
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            -webkit-print-color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+            background: white !important; 
+          }
+          * { box-sizing: border-box; }
         }
       `}} />
 
-      <div className="bg-white text-black p-4 w-[210mm] mx-auto text-[11px] font-sans leading-tight relative z-10">
+      {/* Trocado w-[210mm] por w-full, assim o celular adapta perfeitamente pra A4 */}
+      <div className="bg-white text-black w-full text-[11px] font-sans leading-tight relative z-10 print:p-0">
         
         {/* CABEÇALHO OFICIAL */}
         <div className="flex flex-col mb-4 break-inside-avoid">
-          
           <div className="flex items-center gap-6 mb-4">
             <img src="/logo.png" alt="Logo PMCE" className="h-28 w-auto object-contain" />
             <div className="flex flex-col justify-center">
@@ -43,7 +51,6 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
               <div className="flex items-center gap-1"><div className="w-3 h-3 border border-black"></div> RSV</div>
             </div>
           </div>
-
         </div>
 
         {/* DADOS PRIMÁRIOS */}
@@ -222,7 +229,6 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
                       Responsável pelo Preenchimento
                   </div>
                   
-                  {/* EXIBIÇÃO DO NOME E MATRÍCULA AQUI */}
                   {(d.assinaturaNome || d.assinaturaMatricula) && (
                       <div className="text-center text-[10px] font-bold mt-1 uppercase">
                           {d.assinaturaNome} {d.assinaturaMatricula && `- MAT: ${d.assinaturaMatricula}`}

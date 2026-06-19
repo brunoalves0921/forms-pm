@@ -40,7 +40,6 @@ export default function Passo5Finalizacao({ etapaAnterior }: Props) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       
-      {/* Envolvemos a interface do usuário com print:hidden para NUNCA sair no PDF do celular */}
       <div className="space-y-6 print:hidden">
         
         <div className="bg-white p-5 rounded-xl shadow-sm border-2 border-gray-200 space-y-4">
@@ -73,7 +72,6 @@ export default function Passo5Finalizacao({ etapaAnterior }: Props) {
           </div>
         </div>
 
-        {/* ÁREA DE ASSINATURA NA TELA DO CELULAR */}
         <div className="bg-white p-5 rounded-xl shadow-sm border-2 border-gray-200 space-y-4">
           <div className="flex justify-between items-center border-b-2 border-gray-100 pb-2">
               <h2 className="text-xl font-extrabold text-black">Assinatura do Policial</h2>
@@ -88,7 +86,6 @@ export default function Passo5Finalizacao({ etapaAnterior }: Props) {
             />
           </div>
           
-          {/* NOVOS CAMPOS DE NOME E MATRÍCULA (Abaixo do desenho) */}
           <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-100">
             <div>
               <label className="block text-sm font-bold text-black mb-1">Nome de Guerra</label>
@@ -99,7 +96,6 @@ export default function Passo5Finalizacao({ etapaAnterior }: Props) {
               <input {...register('assinaturaMatricula')} className={inputStyle} placeholder="Ex: 123456-7" />
             </div>
           </div>
-
         </div>
 
         <div className="fixed bottom-0 left-0 w-full bg-white border-t-2 border-gray-200 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] z-50">
@@ -112,8 +108,10 @@ export default function Passo5Finalizacao({ etapaAnterior }: Props) {
         </div>
       </div>
 
-      {/* TEMPLATE INVISÍVEL PARA IMPRESSÃO - Fica fora do print:hidden */}
-      <TemplateFicha ref={printRef} dados={dadosAtuais} />
+      {/* TEMPLATE DE IMPRESSÃO ESCONDIDO (SEM DISPLAY: NONE) */}
+      <div className="absolute opacity-0 pointer-events-none -z-50" style={{ top: '-9999px', left: '-9999px', width: '100vw' }}>
+        <TemplateFicha ref={printRef} dados={dadosAtuais} />
+      </div>
 
     </div>
   )
