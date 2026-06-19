@@ -9,7 +9,6 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
   const headerBg = "bg-green-100";
 
   return (
-    // Removido hidden e o print:block, usando w-full ao invés de tamanhos fixos
     <div ref={ref} className="w-full bg-white relative">
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
@@ -26,7 +25,6 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
         }
       `}} />
 
-      {/* Trocado w-[210mm] por w-full, assim o celular adapta perfeitamente pra A4 */}
       <div className="bg-white text-black w-full text-[11px] font-sans leading-tight relative z-10 print:p-0">
         
         {/* CABEÇALHO OFICIAL */}
@@ -213,35 +211,59 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
             </div>
         </div>
 
-        {/* ÁREA DE ASSINATURAS */}
+        {/* ÁREA DE ASSINATURAS IDÊNTICA À IMAGEM */}
         <div className="border-[1.5px] border-black mb-1 break-inside-avoid bg-white">
-          <div className={`${headerBg} font-extrabold p-1 border-b-[1.5px] border-black uppercase text-[10px] text-center`}>
-            Assinaturas
-          </div>
-          <div className="flex">
-              <div className="flex-1 p-2 flex flex-col items-center justify-end border-r border-black min-h-[90px]">
-                  {d.assinaturaResp ? (
-                      <img src={d.assinaturaResp} alt="Assinatura" className="h-14 object-contain mb-1" />
-                  ) : (
-                      <div className="h-14 mb-1"></div>
-                  )}
-                  <div className="border-t border-black w-[80%] text-center pt-1 font-bold uppercase text-[9px]">
-                      Responsável pelo Preenchimento
+          <div className="flex px-4 py-4 gap-8">
+              
+              {/* Lado Esquerdo: Responsável */}
+              <div className="flex-1 flex flex-col">
+                  <div className="text-[11px] mb-12">Responsável pelo preenchimento</div>
+                  
+                  {/* Espaço para a assinatura desenhada */}
+                  <div className="relative w-full flex justify-center">
+                      {d.assinaturaResp && (
+                          <img src={d.assinaturaResp} alt="Assinatura" className="absolute bottom-0 h-16 object-contain z-10" />
+                      )}
                   </div>
                   
-                  {(d.assinaturaNome || d.assinaturaMatricula) && (
-                      <div className="text-center text-[10px] font-bold mt-1 uppercase">
-                          {d.assinaturaNome} {d.assinaturaMatricula && `- MAT: ${d.assinaturaMatricula}`}
+                  {/* Linha da assinatura principal */}
+                  <div className="border-b-[1.5px] border-black w-full mb-3"></div>
+                  
+                  {/* Campos Nome e Matrícula no formato de linha */}
+                  <div className="flex items-end mb-2">
+                      <span className="text-[11px] mr-2">Nome:</span>
+                      <div className="border-b-[1.5px] border-black flex-1 text-[11px] px-1 pb-[1px] font-bold uppercase h-4 flex items-end">
+                          {d.assinaturaNome || ''}
                       </div>
-                  )}
-
-              </div>
-              <div className="flex-1 p-2 flex flex-col items-center justify-end min-h-[90px]">
-                  <div className="h-14 mb-1"></div>
-                  <div className="border-t border-black w-[80%] text-center pt-1 font-bold uppercase text-[9px]">
-                      Supervisor
+                  </div>
+                  <div className="flex items-end">
+                      <span className="text-[11px] mr-2">Matrícula:</span>
+                      <div className="border-b-[1.5px] border-black flex-1 text-[11px] px-1 pb-[1px] font-bold uppercase h-4 flex items-end">
+                          {d.assinaturaMatricula || ''}
+                      </div>
                   </div>
               </div>
+
+              {/* Lado Direito: Supervisor */}
+              <div className="flex-1 flex flex-col">
+                  <div className="text-[11px] mb-12">Supervisor</div>
+                  
+                  <div className="relative w-full flex justify-center">
+                      {/* Fica vazio propositalmente para assinatura a caneta */}
+                  </div>
+                  
+                  <div className="border-b-[1.5px] border-black w-full mb-3"></div>
+                  
+                  <div className="flex items-end mb-2">
+                      <span className="text-[11px] mr-2">Nome:</span>
+                      <div className="border-b-[1.5px] border-black flex-1 h-4"></div>
+                  </div>
+                  <div className="flex items-end">
+                      <span className="text-[11px] mr-2">Matrícula:</span>
+                      <div className="border-b-[1.5px] border-black flex-1 h-4"></div>
+                  </div>
+              </div>
+
           </div>
         </div>
 
