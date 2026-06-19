@@ -9,21 +9,20 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
   const headerBg = "bg-green-100";
 
   return (
-    <div className="hidden print:block relative">
-      {/* CORRIGIDO: dangerouslySetInnerHTML em vez de Content */}
+    // A ref precisa ficar no primeiro elemento, assim ele captura os estilos do @media print
+    <div ref={ref} className="hidden print:block relative w-full bg-white">
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
           @page { margin: 15mm 10mm; size: A4 portrait; }
-          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white; }
         }
       `}} />
 
-      <div ref={ref} className="bg-white text-black p-4 w-[210mm] mx-auto text-[11px] font-sans leading-tight relative z-10">
+      <div className="bg-white text-black p-4 w-[210mm] mx-auto text-[11px] font-sans leading-tight relative z-10">
         
         {/* CABEÇALHO OFICIAL */}
         <div className="flex flex-col mb-4 break-inside-avoid">
           
-          {/* Logo e Títulos (Reorganizados e logo menor h-28) */}
           <div className="flex items-center gap-6 mb-4">
             <img src="/logo.png" alt="Logo PMCE" className="h-28 w-auto object-contain" />
             <div className="flex flex-col justify-center">
@@ -32,7 +31,6 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
             </div>
           </div>
 
-          {/* Quadro: Para uso do P3 (AGORA EM LINHA HORIZONTAL) */}
           <div className="border-[1.5px] border-black p-1.5 bg-white text-[10px] flex items-center">
             <div className="font-extrabold border-r-[1.5px] border-black pr-3 mr-3 uppercase">Para uso do P3:</div>
             <div className="flex items-center gap-5">
@@ -223,6 +221,14 @@ const TemplateFicha = forwardRef(({ dados }: { dados: any }, ref: any) => {
                   <div className="border-t border-black w-[80%] text-center pt-1 font-bold uppercase text-[9px]">
                       Responsável pelo Preenchimento
                   </div>
+                  
+                  {/* EXIBIÇÃO DO NOME E MATRÍCULA AQUI */}
+                  {(d.assinaturaNome || d.assinaturaMatricula) && (
+                      <div className="text-center text-[10px] font-bold mt-1 uppercase">
+                          {d.assinaturaNome} {d.assinaturaMatricula && `- MAT: ${d.assinaturaMatricula}`}
+                      </div>
+                  )}
+
               </div>
               <div className="flex-1 p-2 flex flex-col items-center justify-end min-h-[90px]">
                   <div className="h-14 mb-1"></div>
